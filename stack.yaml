@@ -1,0 +1,17 @@
+resolver: lts-18.28
+
+packages:
+- .
+
+allow-different-user: true
+
+extra-deps:
+- github: quanterall/qtility
+  commit: feebd3658c48ca15caea9007f2a545019a246521
+  subdirs:
+  - qtility
+  # nix-sha256: sha256-GKn9DqlG5TdJVoUXRaYxXN8UPxgSq/coswpc4O049Eg=
+
+nix:
+  packages: 
+  - zlib

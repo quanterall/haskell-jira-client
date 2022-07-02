@@ -1,0 +1,199 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.34.4.
+--
+-- see: https://github.com/sol/hpack
+
+name:           jira-client
+version:        0.0.0
+build-type:     Simple
+
+library
+  exposed-modules:
+      JiraClient.ApiRequest
+      JiraClient.Types
+      Library
+  other-modules:
+      Paths_jira_client
+  hs-source-dirs:
+      src
+  default-extensions:
+      ApplicativeDo
+      BangPatterns
+      BinaryLiterals
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveDataTypeable
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveTraversable
+      DeriveLift
+      DerivingStrategies
+      DoAndIfThenElse
+      DuplicateRecordFields
+      EmptyDataDecls
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoImplicitPrelude
+      OverloadedStrings
+      PartialTypeSignatures
+      PatternGuards
+      PolyKinds
+      RankNTypes
+      RecordWildCards
+      ScopedTypeVariables
+      StandaloneDeriving
+      TupleSections
+      TypeFamilies
+      TypeSynonymInstances
+      ViewPatterns
+      TypeApplications
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -Wwarn=deprecations -Werror=incomplete-patterns
+  build-depends:
+      aeson
+    , aeson-lens
+    , base >=4.9.1.0 && <5
+    , base64-bytestring
+    , http-conduit
+    , qtility
+    , rio
+  default-language: Haskell2010
+
+executable jira-client
+  main-is: Main.hs
+  other-modules:
+      Paths_jira_client
+  hs-source-dirs:
+      app
+  default-extensions:
+      ApplicativeDo
+      BangPatterns
+      BinaryLiterals
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveDataTypeable
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveTraversable
+      DeriveLift
+      DerivingStrategies
+      DoAndIfThenElse
+      DuplicateRecordFields
+      EmptyDataDecls
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoImplicitPrelude
+      OverloadedStrings
+      PartialTypeSignatures
+      PatternGuards
+      PolyKinds
+      RankNTypes
+      RecordWildCards
+      ScopedTypeVariables
+      StandaloneDeriving
+      TupleSections
+      TypeFamilies
+      TypeSynonymInstances
+      ViewPatterns
+      TypeApplications
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -Wwarn=deprecations -Werror=incomplete-patterns -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aeson
+    , aeson-lens
+    , base >=4.9.1.0 && <5
+    , base64-bytestring
+    , http-conduit
+    , jira-client
+    , qtility
+    , rio
+  default-language: Haskell2010
+
+test-suite jira-client-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  other-modules:
+      Paths_jira_client
+  hs-source-dirs:
+      test
+  default-extensions:
+      ApplicativeDo
+      BangPatterns
+      BinaryLiterals
+      ConstraintKinds
+      DataKinds
+      DefaultSignatures
+      DeriveDataTypeable
+      DeriveFoldable
+      DeriveFunctor
+      DeriveGeneric
+      DeriveTraversable
+      DeriveLift
+      DerivingStrategies
+      DoAndIfThenElse
+      DuplicateRecordFields
+      EmptyDataDecls
+      EmptyCase
+      ExistentialQuantification
+      FlexibleContexts
+      FlexibleInstances
+      FunctionalDependencies
+      GADTs
+      GeneralizedNewtypeDeriving
+      InstanceSigs
+      KindSignatures
+      LambdaCase
+      MultiParamTypeClasses
+      MultiWayIf
+      NamedFieldPuns
+      NoImplicitPrelude
+      OverloadedStrings
+      PartialTypeSignatures
+      PatternGuards
+      PolyKinds
+      RankNTypes
+      RecordWildCards
+      ScopedTypeVariables
+      StandaloneDeriving
+      TupleSections
+      TypeFamilies
+      TypeSynonymInstances
+      ViewPatterns
+      TypeApplications
+  ghc-options: -Wall -Wcompat -Widentities -Wincomplete-record-updates -Wincomplete-uni-patterns -Wpartial-fields -Wredundant-constraints -Wwarn=deprecations -Werror=incomplete-patterns -Wall
+  build-depends:
+      aeson
+    , aeson-lens
+    , base >=4.9.1.0 && <5
+    , base64-bytestring
+    , hspec >=2.0.0
+    , http-conduit
+    , jira-client
+    , qtility
+    , rio
+  default-language: Haskell2010
