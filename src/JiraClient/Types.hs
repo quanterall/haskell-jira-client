@@ -16,6 +16,12 @@ newtype ApiToken = ApiToken {unApiToken :: ByteString}
 newtype Username = Username {unUsername :: ByteString}
   deriving (Eq, Show, IsString, FromEnvironmentValue)
 
+newtype BoardId = BoardId {unBoardId :: Integer}
+  deriving (Eq, Show, Num, FromJSON, ToJSON)
+
+newtype ProjectId = ProjectId {unProjectId :: Integer}
+  deriving (Eq, Show, Num, FromJSON, ToJSON)
+
 data Credentials = Credentials
   { _credentialsUsername :: Username,
     _credentialsToken :: ApiToken
@@ -34,10 +40,10 @@ data GetBoardsResponse = GetBoardsResponse
   }
   deriving (Show, Eq, Generic)
 
-newtype GetBoardRequest = GetBoardRequest {unGetBoardRequest :: Integer}
+newtype GetBoardRequest = GetBoardRequest {unGetBoardRequest :: BoardId}
   deriving (Eq, Show, Generic)
 
-newtype GetBoardProjectsRequest = GetBoardProjectsRequest {unGetBoardProjectsRequest :: Integer}
+newtype GetBoardProjectsRequest = GetBoardProjectsRequest {unGetBoardProjectsRequest :: BoardId}
   deriving (Eq, Show, Generic)
 
 data GetBoardProjectsResponse = GetBoardProjectsResponse
@@ -50,7 +56,7 @@ data GetBoardProjectsResponse = GetBoardProjectsResponse
   deriving (Eq, Show, Generic)
 
 data GetBoardResponse = GetBoardResponse
-  { _getBoardResponseId :: !Integer,
+  { _getBoardResponseId :: !BoardId,
     _getBoardResponseLocation :: !ProjectLocation,
     _getboardResponseName :: !Text,
     _getBoardResponseSelf :: !Url
@@ -84,7 +90,7 @@ data ProjectCategory = ProjectCategory
   deriving (Eq, Show, Generic)
 
 data Board = Board
-  { _boardId :: !Integer,
+  { _boardId :: !BoardId,
     _boardName :: !String,
     _boardLocation :: !ProjectLocation
   }
@@ -94,7 +100,7 @@ data ProjectLocation = ProjectLocation
   { _projectLocationDisplayName :: !Text,
     _projectLocationName :: !Text,
     _projectLocationProjectKey :: !String,
-    _projectLocationProjectId :: !Integer,
+    _projectLocationProjectId :: !ProjectId,
     _projectLocationAvatarURI :: !Url
   }
   deriving (Eq, Show, Generic)
@@ -106,7 +112,9 @@ foldMapM
     ''ApiToken,
     ''Username,
     ''GetBoardRequest,
-    ''GetBoardProjectsRequest
+    ''GetBoardProjectsRequest,
+    ''BoardId,
+    ''ProjectId
   ]
 
 foldMapM
