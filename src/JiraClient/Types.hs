@@ -22,6 +22,9 @@ newtype BoardId = BoardId {unBoardId :: Integer}
 newtype ProjectId = ProjectId {unProjectId :: Integer}
   deriving (Eq, Show, Num, FromJSON, ToJSON)
 
+newtype IssueId = IssueId {unIssueId :: String}
+  deriving (Eq, Show, IsString, FromJSON, ToJSON)
+
 data Credentials = Credentials
   { _credentialsUsername :: Username,
     _credentialsToken :: ApiToken
@@ -60,6 +63,32 @@ data GetBoardResponse = GetBoardResponse
     _getBoardResponseLocation :: !ProjectLocation,
     _getboardResponseName :: !Text,
     _getBoardResponseSelf :: !Url
+  }
+  deriving (Eq, Show, Generic)
+
+newtype GetBoardIssuesRequest = GetBoardIssuesRequest {unGetBoardIssuesRequest :: BoardId}
+  deriving (Eq, Show, Generic)
+
+data GetBoardIssuesResponse = GetBoardIssuesResponse
+  { _getBoardIssuesResponseMaxResults :: !Int,
+    _getBoardIssuesResponseStartAt :: !Int,
+    _getBoardIssuesResponseTotal :: !Int,
+    _getBoardIssuesResponseIssues :: ![Issue],
+    _getBoardIssuesResponseExpand :: !String
+  }
+  deriving (Eq, Show, Generic)
+
+data Issue = Issue
+  { _issueId :: !IssueId,
+    _issueKey :: !Text,
+    _issueSelf :: !Url,
+    _issueFields :: !IssueFields
+  }
+  deriving (Eq, Show, Generic)
+
+data IssueFields = IssueFields
+  { _issueFieldsFlagged :: !Bool,
+    _issueFieldsDescription :: !Text
   }
   deriving (Eq, Show, Generic)
 
@@ -113,8 +142,10 @@ foldMapM
     ''Username,
     ''GetBoardRequest,
     ''GetBoardProjectsRequest,
+    ''GetBoardIssuesRequest,
     ''BoardId,
-    ''ProjectId
+    ''ProjectId,
+    ''IssueId
   ]
 
 foldMapM
@@ -123,11 +154,14 @@ foldMapM
     ''Board,
     ''AvatarUrls,
     ''Project,
+    ''Issue,
+    ''IssueFields,
     ''ProjectCategory,
     ''GetBoardsResponse,
     ''GetBoardResponse,
     ''GetBoardProjectsRequest,
-    ''GetBoardProjectsResponse
+    ''GetBoardProjectsResponse,
+    ''GetBoardIssuesResponse
   ]
 
 foldMapM makeLenses [''Credentials]

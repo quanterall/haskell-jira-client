@@ -26,6 +26,12 @@ instance JiraRequest GetBoardProjectsRequest where
     callApi credentials baseUrl $
       Url $ "rest/agile/1.0/board/" <> show @Integer (request ^. unwrap . unwrap) <> "/project"
 
+instance JiraRequest GetBoardIssuesRequest where
+  type ResponseType GetBoardIssuesRequest = GetBoardIssuesResponse
+  makeRequest credentials baseUrl request =
+    callApi credentials baseUrl $
+      Url $ "rest/agile/1.0/board/" <> show @Integer (request ^. unwrap . unwrap) <> "/issue"
+
 callApi :: (FromJSON a) => Credentials -> BaseUrl -> Url -> IO (Either String a)
 callApi credentials baseUrl url = do
   request <- parseRequest (baseUrl ^. unwrap <> url ^. unwrap)
