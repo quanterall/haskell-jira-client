@@ -37,11 +37,49 @@ data GetBoardsResponse = GetBoardsResponse
 newtype GetBoardRequest = GetBoardRequest {unGetBoardRequest :: Integer}
   deriving (Eq, Show, Generic)
 
+newtype GetBoardProjectsRequest = GetBoardProjectsRequest {unGetBoardProjectsRequest :: Integer}
+  deriving (Eq, Show, Generic)
+
+data GetBoardProjectsResponse = GetBoardProjectsResponse
+  { _getBoardProjectsResponseIsLast :: !Bool,
+    _getBoardProjectsResponseMaxResults :: !Int,
+    _getBoardProjectsResponseStartAt :: !Int,
+    _getBoardProjectsResponseTotal :: !Int,
+    _getBoardProjectsResponseValues :: ![Project]
+  }
+  deriving (Eq, Show, Generic)
+
 data GetBoardResponse = GetBoardResponse
   { _getBoardResponseId :: !Integer,
     _getBoardResponseLocation :: !ProjectLocation,
     _getboardResponseName :: !Text,
     _getBoardResponseSelf :: !Url
+  }
+  deriving (Eq, Show, Generic)
+
+data Project = Project
+  { _projectAvatarUrls :: !AvatarUrls,
+    _projectId :: !String,
+    _projectKey :: !Text,
+    _projectName :: !Text,
+    _projectProjectCategory :: !ProjectCategory,
+    _projectSimplified :: !Bool
+  }
+  deriving (Eq, Show, Generic)
+
+data AvatarUrls = AvatarUrls
+  { _avatarUrls16x16 :: !Url,
+    _avatarUrls24x24 :: !Url,
+    _avatarUrls32x32 :: !Url,
+    _avatarUrls48x48 :: !Url
+  }
+  deriving (Eq, Show, Generic)
+
+data ProjectCategory = ProjectCategory
+  { _projectCategoryDescription :: !Text,
+    _projectCategoryId :: !String,
+    _projectCategoryName :: !Text,
+    _projectCategorySelf :: !Url
   }
   deriving (Eq, Show, Generic)
 
@@ -61,8 +99,27 @@ data ProjectLocation = ProjectLocation
   }
   deriving (Eq, Show, Generic)
 
-foldMapM makeWrapped [''BaseUrl, ''Url, ''ApiToken, ''Username, ''GetBoardRequest]
+foldMapM
+  makeWrapped
+  [ ''BaseUrl,
+    ''Url,
+    ''ApiToken,
+    ''Username,
+    ''GetBoardRequest,
+    ''GetBoardProjectsRequest
+  ]
 
-foldMapM deriveLensAndJSON [''ProjectLocation, ''Board, ''GetBoardsResponse, ''GetBoardResponse]
+foldMapM
+  deriveLensAndJSON
+  [ ''ProjectLocation,
+    ''Board,
+    ''AvatarUrls,
+    ''Project,
+    ''ProjectCategory,
+    ''GetBoardsResponse,
+    ''GetBoardResponse,
+    ''GetBoardProjectsRequest,
+    ''GetBoardProjectsResponse
+  ]
 
 foldMapM makeLenses [''Credentials]
