@@ -34,6 +34,17 @@ data GetBoardsResponse = GetBoardsResponse
   }
   deriving (Show, Eq, Generic)
 
+newtype GetBoardRequest = GetBoardRequest {unGetBoardRequest :: Integer}
+  deriving (Eq, Show, Generic)
+
+data GetBoardResponse = GetBoardResponse
+  { _getBoardResponseId :: !Integer,
+    _getBoardResponseLocation :: !ProjectLocation,
+    _getboardResponseName :: !Text,
+    _getBoardResponseSelf :: !Url
+  }
+  deriving (Eq, Show, Generic)
+
 data Board = Board
   { _boardId :: !Integer,
     _boardName :: !String,
@@ -50,8 +61,8 @@ data ProjectLocation = ProjectLocation
   }
   deriving (Eq, Show, Generic)
 
-foldMapM makeWrapped [''BaseUrl, ''Url, ''ApiToken, ''Username]
+foldMapM makeWrapped [''BaseUrl, ''Url, ''ApiToken, ''Username, ''GetBoardRequest]
 
-foldMapM deriveLensAndJSON [''ProjectLocation, ''Board, ''GetBoardsResponse]
+foldMapM deriveLensAndJSON [''ProjectLocation, ''Board, ''GetBoardsResponse, ''GetBoardResponse]
 
 foldMapM makeLenses [''Credentials]
