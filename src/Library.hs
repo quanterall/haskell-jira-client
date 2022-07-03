@@ -1,6 +1,7 @@
 module Library where
 
-import Prelude
+import Qtility
+import System.IO (putStrLn)
 
 runMain :: IO ()
 runMain = do
