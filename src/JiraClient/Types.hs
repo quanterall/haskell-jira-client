@@ -3,7 +3,7 @@
 module JiraClient.Types where
 
 import Qtility
-import RIO.Time
+import RIO.Time (UTCTime)
 
 newtype BaseUrl = BaseUrl {unBaseUrl :: String}
   deriving (Eq, Show, IsString)
