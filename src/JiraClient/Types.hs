@@ -3,6 +3,7 @@
 module JiraClient.Types where
 
 import Qtility
+import RIO.Time (UTCTime)
 
 newtype BaseUrl = BaseUrl {unBaseUrl :: String}
   deriving (Eq, Show, IsString)
@@ -24,6 +25,9 @@ newtype ProjectId = ProjectId {unProjectId :: Integer}
 
 newtype IssueId = IssueId {unIssueId :: String}
   deriving (Eq, Show, IsString, FromJSON, ToJSON)
+
+newtype SprintId = SprintId {unSprintId :: Integer}
+  deriving (Eq, Show, Num, FromJSON, ToJSON)
 
 data Credentials = Credentials
   { _credentialsUsername :: Username,
@@ -72,9 +76,34 @@ newtype GetBoardIssuesRequest = GetBoardIssuesRequest {unGetBoardIssuesRequest :
 data GetBoardIssuesResponse = GetBoardIssuesResponse
   { _getBoardIssuesResponseMaxResults :: !Int,
     _getBoardIssuesResponseStartAt :: !Int,
-    _getBoardIssuesResponseTotal :: !Int,
+    _getBoardIssuesResponseTotal :: Int,
     _getBoardIssuesResponseIssues :: ![Issue],
     _getBoardIssuesResponseExpand :: !String
+  }
+  deriving (Eq, Show, Generic)
+
+newtype GetBoardSprintsRequest = GetBoardSprintsRequest {unGetBoardSprintsRequest :: BoardId}
+  deriving (Eq, Show, Generic)
+
+data GetBoardSprintsResponse = GetBoardSprintsResponse
+  { _getBoardSprintsResponseMaxResults :: !Int,
+    _getBoardSprintsResponseStartAt :: !Int,
+    _getBoardSprintsResponseTotal :: !(Maybe Int),
+    _getBoardSprintsResponseValues :: ![Sprint]
+  }
+  deriving (Eq, Show, Generic)
+
+
+data Sprint = Sprint
+  {_sprintId :: !SprintId,
+    _sprintSelf :: !Url,
+    _sprintState :: !Text,
+    _sprintName :: !Text,
+    _sprintStartDate :: !UTCTime,
+    _sprintEndDate :: !UTCTime,
+    _sprintCompleteDate :: !(Maybe UTCTime),
+    _sprintOriginBoardId :: !BoardId,
+    _sprintGoal :: !Text
   }
   deriving (Eq, Show, Generic)
 
@@ -143,9 +172,11 @@ foldMapM
     ''GetBoardRequest,
     ''GetBoardProjectsRequest,
     ''GetBoardIssuesRequest,
+    ''GetBoardSprintsRequest,
     ''BoardId,
     ''ProjectId,
-    ''IssueId
+    ''IssueId,
+    ''SprintId
   ]
 
 foldMapM
@@ -155,13 +186,15 @@ foldMapM
     ''AvatarUrls,
     ''Project,
     ''Issue,
+    ''Sprint,
     ''IssueFields,
     ''ProjectCategory,
     ''GetBoardsResponse,
     ''GetBoardResponse,
     ''GetBoardProjectsRequest,
     ''GetBoardProjectsResponse,
-    ''GetBoardIssuesResponse
+    ''GetBoardIssuesResponse,
+    ''GetBoardSprintsResponse
   ]
 
 foldMapM makeLenses [''Credentials]
