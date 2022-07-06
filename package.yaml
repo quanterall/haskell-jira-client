@@ -10,6 +10,7 @@ dependencies:
 - base64-bytestring
 - aeson
 - aeson-lens
+- lens
 
 default-extensions:
 - ApplicativeDo
