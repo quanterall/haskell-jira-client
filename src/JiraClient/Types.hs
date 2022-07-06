@@ -38,6 +38,9 @@ newtype AccountId = AccountId {unAccountId :: String}
 newtype WorkLogId = WorkLogId {unWorkLogId :: String}
   deriving (Eq, Show, IsString, FromJSON, ToJSON)
 
+newtype EpicId = EpicId {unEpicId :: Int}
+  deriving (Eq, Show, Num, FromJSON, ToJSON)
+
 data Credentials = Credentials
   { _credentialsUsername :: Username,
     _credentialsToken :: ApiToken
@@ -124,18 +127,21 @@ data GetBoardEpicsResponse = GetBoardEpicsResponse
     _getBoardEpicsResponseStartAt :: !Int,
     _getBoardEpicsResponseTotal :: !(Maybe Int),
     _getBoardEpicsResponseIsLast :: !Bool,
-    _getBoardEpicsResponseEpics :: !(Maybe [Epic])
+    _getBoardEpicsResponseValues :: !(Maybe [Epic])
   }
   deriving (Eq, Show, Generic)
 
 data Epic = Epic
-  { _epicId :: !BoardId,
+  { _epicId :: !EpicId,
     _epicSelf :: !Url,
     _epicName :: !Text,
     _epicSummary :: !Text,
-    _epicColor :: !Value,
+    _epicColor :: !Color,
     _epicDone :: !Bool
   }
+  deriving (Eq, Show, Generic)
+
+newtype Color = Color {_colorKey :: Text}
   deriving (Eq, Show, Generic)
 
 data Sprint = Sprint
@@ -163,7 +169,7 @@ data IssueFields = IssueFields
   { _issueFieldsFlagged :: !Bool,
     _issueFieldsSprint :: !(Maybe BasicSprintInfo),
     _issueFieldsClosedSprint :: !(Maybe [Sprint]),
-    _issueFieldsDescription :: !Text,
+    _issueFieldsDescription :: !(Maybe Text),
     _issueFieldsProject :: !Project,
     _issueFieldsComment :: !CommentsInfo,
     _issueFieldsEpic :: !(Maybe BasicEpicInfo),
@@ -243,7 +249,7 @@ data BasicUserInfo = BasicUserInfo
   deriving (Eq, Show, Generic)
 
 data BasicEpicInfo = BasicEpicInfo
-  { _basicEpicInfoId :: !IssueId,
+  { _basicEpicInfoId :: !EpicId,
     _basicEpicInfoSelf :: !Url,
     _basicEpicInfoName :: !Text,
     _basicEpicInfoSummary :: !Text,
@@ -289,7 +295,7 @@ data Project = Project
     _projectId :: !String,
     _projectKey :: !Text,
     _projectName :: !Text,
-    _projectProjectCategory :: !ProjectCategory,
+    _projectProjectCategory :: !(Maybe ProjectCategory),
     _projectSimplified :: !Bool
   }
   deriving (Eq, Show, Generic)
@@ -357,6 +363,7 @@ foldMapM
     ''CommentsInfo,
     ''Comment,
     ''User,
+    ''Color,
     ''WorkLogInfo,
     ''WorkLogItem,
     ''TimeTrackingInfo,
