@@ -5,6 +5,12 @@ module JiraClient.Types where
 import Qtility
 import RIO.Time (UTCTime)
 
+newtype StartAt = StartAt {unStartAt :: Int}
+  deriving (Eq, Show, Num, ToJSON, FromJSON)
+
+newtype MaxResults = MaxResults {unMaxResults :: Int}
+  deriving (Eq, Show, Num, ToJSON, FromJSON)
+
 newtype BaseUrl = BaseUrl {unBaseUrl :: String}
   deriving (Eq, Show, IsString)
 
@@ -82,7 +88,11 @@ data GetBoardResponse = GetBoardResponse
   }
   deriving (Eq, Show, Generic)
 
-newtype GetBoardIssuesRequest = GetBoardIssuesRequest {unGetBoardIssuesRequest :: BoardId}
+data GetBoardIssuesRequest = GetBoardIssuesRequest
+  { _getBoardIssuesRequestBoardId :: !BoardId,
+    _getBoardIssuesRequestStartAt :: !(Maybe StartAt),
+    _getBoardIssuesRequestMaxResults :: !(Maybe MaxResults)
+  }
   deriving (Eq, Show, Generic)
 
 data GetBoardIssuesResponse = GetBoardIssuesResponse
@@ -216,7 +226,7 @@ data User = User
     _userActive :: !Bool,
     _userAvatarUrls :: !AvatarUrls,
     _userDisplayName :: !Text,
-    _userEmailAddress :: !Text,
+    _userEmailAddress :: !(Maybe Text),
     _userSelf :: !Url,
     _userTimeZone :: !Text
   }
@@ -340,7 +350,6 @@ foldMapM
     ''Username,
     ''GetBoardRequest,
     ''GetBoardProjectsRequest,
-    ''GetBoardIssuesRequest,
     ''GetBoardSprintsRequest,
     ''GetBoardEpicsRequest,
     ''BoardId,
@@ -348,7 +357,9 @@ foldMapM
     ''IssueId,
     ''SprintId,
     ''CommentId,
-    ''AccountId
+    ''AccountId,
+    ''StartAt,
+    ''MaxResults
   ]
 
 foldMapM
@@ -383,7 +394,8 @@ foldMapM
     ''GetBoardSprintsResponse,
     ''GetSprintIssuesRequest,
     ''GetSprintIssuesResponse,
-    ''GetBoardEpicsResponse
+    ''GetBoardEpicsResponse,
+    ''GetBoardIssuesRequest
   ]
 
 foldMapM makeLenses [''Credentials]
