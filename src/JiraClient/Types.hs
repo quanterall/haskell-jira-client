@@ -107,6 +107,28 @@ data GetBoardSprintsResponse = GetBoardSprintsResponse
   }
   deriving (Eq, Show, Generic)
 
+newtype GetBoardEpicsRequest = GetBoardEpicsRequest {unGetBoardEpicsRequest :: BoardId}
+  deriving (Eq, Show, Generic)
+
+data GetBoardEpicsResponse = GetBoardEpicsResponse
+  { _getBoardEpicsResponseMaxResults :: !Int,
+    _getBoardEpicsResponseStartAt :: !Int,
+    _getBoardEpicsResponseTotal :: !(Maybe Int),
+    _getBoardEpicsResponseIsLast :: !Bool,
+    _getBoardEpicsResponseEpics :: !(Maybe [Epic])
+  }
+  deriving (Eq, Show, Generic)
+
+data Epic = Epic
+  { _epicId :: !BoardId,
+    _epicSelf :: !Url,
+    _epicName :: !Text,
+    _epicSummary :: !Text,
+    _epicColor :: !Value,
+    _epicDone :: !Bool
+  }
+  deriving (Eq, Show, Generic)
+
 data Sprint = Sprint
   { _sprintId :: !SprintId,
     _sprintSelf :: !Url,
@@ -186,6 +208,7 @@ foldMapM
     ''GetBoardProjectsRequest,
     ''GetBoardIssuesRequest,
     ''GetBoardSprintsRequest,
+    ''GetBoardEpicsRequest,
     ''BoardId,
     ''ProjectId,
     ''IssueId,
@@ -200,6 +223,7 @@ foldMapM
     ''Project,
     ''Issue,
     ''Sprint,
+    ''Epic,
     ''IssueFields,
     ''ProjectCategory,
     ''GetBoardsResponse,
@@ -209,7 +233,8 @@ foldMapM
     ''GetBoardIssuesResponse,
     ''GetBoardSprintsResponse,
     ''GetSprintIssuesRequest,
-    ''GetSprintIssuesResponse
+    ''GetSprintIssuesResponse,
+    ''GetBoardEpicsResponse
   ]
 
 foldMapM makeLenses [''Credentials]

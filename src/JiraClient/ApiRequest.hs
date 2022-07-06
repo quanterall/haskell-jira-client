@@ -49,6 +49,12 @@ instance JiraRequest GetSprintIssuesRequest where
           <> show @Integer (request ^. getSprintIssuesRequestSprintId . unwrap)
           <> "/issue"
 
+instance JiraRequest GetBoardEpicsRequest where
+  type ResponseType GetBoardEpicsRequest = GetBoardEpicsResponse
+  makeRequest credentials baseUrl request =
+    callApi credentials baseUrl $
+      Url $ "rest/agile/1.0/board/" <> show @Integer (request ^. unwrap . unwrap) <> "/epic"
+
 callApi :: (FromJSON a) => Credentials -> BaseUrl -> Url -> IO (Either String a)
 callApi credentials baseUrl url = do
   request <- parseRequest (baseUrl ^. unwrap <> url ^. unwrap)
