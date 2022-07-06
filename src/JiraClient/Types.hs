@@ -94,6 +94,20 @@ data GetBoardIssuesResponse = GetBoardIssuesResponse
 newtype GetBoardSprintsRequest = GetBoardSprintsRequest {unGetBoardSprintsRequest :: BoardId}
   deriving (Eq, Show, Generic)
 
+data GetSprintIssuesRequest = GetSprintIssuesRequest
+  { _getSprintIssuesRequestBoardId :: !BoardId,
+    _getSprintIssuesRequestSprintId :: !SprintId
+  }
+  deriving (Eq, Show, Generic)
+
+data GetSprintIssuesResponse = GetSprintIssuesResponse
+  { _getSprintIssuesResponseMaxResults :: !Int,
+    _getSprintIssuesResponseStartAt :: !Int,
+    _getSprintIssuesResponseTotal :: !Int,
+    _getSprintIssuesResponseIssues :: ![Issue]
+  }
+  deriving (Eq, Show, Generic)
+
 data GetBoardSprintsResponse = GetBoardSprintsResponse
   { _getBoardSprintsResponseMaxResults :: !Int,
     _getBoardSprintsResponseStartAt :: !Int,
@@ -335,7 +349,9 @@ foldMapM
     ''GetBoardProjectsRequest,
     ''GetBoardProjectsResponse,
     ''GetBoardIssuesResponse,
-    ''GetBoardSprintsResponse
+    ''GetBoardSprintsResponse,
+    ''GetSprintIssuesRequest,
+    ''GetSprintIssuesResponse
   ]
 
 foldMapM makeLenses [''Credentials]
