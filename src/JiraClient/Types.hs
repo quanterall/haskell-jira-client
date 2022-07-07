@@ -2,6 +2,7 @@
 
 module JiraClient.Types where
 
+import Data.Aeson (withText)
 import Qtility
 import RIO.Time (UTCTime)
 
@@ -17,11 +18,23 @@ newtype BaseUrl = BaseUrl {unBaseUrl :: String}
 newtype Url = Url {unUrl :: String}
   deriving (Eq, Show, IsString, ToJSON, FromJSON)
 
-newtype ApiToken = ApiToken {unApiToken :: ByteString}
+newtype JiraToken = JiraToken {unJiraToken :: ByteString}
   deriving (Eq, Show, IsString, FromEnvironmentValue)
 
-newtype Username = Username {unUsername :: ByteString}
+instance FromJSON JiraToken where
+  parseJSON = withText "JiraToken" $ encodeUtf8 >>> JiraToken >>> pure
+
+instance ToJSON JiraToken where
+  toJSON = unJiraToken >>> decodeUtf8Lenient >>> toJSON
+
+newtype JiraUsername = JiraUsername {unJiraUsername :: ByteString}
   deriving (Eq, Show, IsString, FromEnvironmentValue)
+
+instance FromJSON JiraUsername where
+  parseJSON = withText "JiraUsername" $ encodeUtf8 >>> JiraUsername >>> pure
+
+instance ToJSON JiraUsername where
+  toJSON = unJiraUsername >>> decodeUtf8Lenient >>> toJSON
 
 newtype BoardId = BoardId {unBoardId :: Integer}
   deriving (Eq, Show, Num, FromJSON, ToJSON)
@@ -48,8 +61,8 @@ newtype EpicId = EpicId {unEpicId :: Int}
   deriving (Eq, Show, Num, FromJSON, ToJSON)
 
 data Credentials = Credentials
-  { _credentialsUsername :: Username,
-    _credentialsToken :: ApiToken
+  { _credentialsUsername :: !JiraUsername,
+    _credentialsToken :: !JiraToken
   }
   deriving (Eq, Show, Generic)
 
@@ -346,8 +359,8 @@ foldMapM
   makeWrapped
   [ ''BaseUrl,
     ''Url,
-    ''ApiToken,
-    ''Username,
+    ''JiraToken,
+    ''JiraUsername,
     ''GetBoardRequest,
     ''GetBoardProjectsRequest,
     ''GetBoardSprintsRequest,
