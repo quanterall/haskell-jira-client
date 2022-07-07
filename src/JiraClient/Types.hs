@@ -3,6 +3,7 @@
 module JiraClient.Types where
 
 import Data.Aeson (withText)
+import Data.OpenApi (ToSchema)
 import Qtility
 import RIO.Time (UTCTime)
 
@@ -19,7 +20,7 @@ newtype Url = Url {unUrl :: String}
   deriving (Eq, Show, IsString, ToJSON, FromJSON)
 
 newtype JiraToken = JiraToken {unJiraToken :: ByteString}
-  deriving (Eq, Show, IsString, FromEnvironmentValue)
+  deriving (Eq, Show, IsString, FromEnvironmentValue, Generic, ToSchema)
 
 instance FromJSON JiraToken where
   parseJSON = withText "JiraToken" $ encodeUtf8 >>> JiraToken >>> pure
@@ -28,7 +29,7 @@ instance ToJSON JiraToken where
   toJSON = unJiraToken >>> decodeUtf8Lenient >>> toJSON
 
 newtype JiraUsername = JiraUsername {unJiraUsername :: ByteString}
-  deriving (Eq, Show, IsString, FromEnvironmentValue)
+  deriving (Eq, Show, IsString, FromEnvironmentValue, Generic, ToSchema)
 
 instance FromJSON JiraUsername where
   parseJSON = withText "JiraUsername" $ encodeUtf8 >>> JiraUsername >>> pure

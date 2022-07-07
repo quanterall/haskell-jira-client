@@ -69,6 +69,7 @@ library
     , base64-bytestring
     , http-conduit
     , lens
+    , openapi3
     , qtility
     , rio
   default-language: Haskell2010
@@ -132,6 +133,7 @@ executable jira-client
     , http-conduit
     , jira-client
     , lens
+    , openapi3
     , qtility
     , rio
   default-language: Haskell2010
@@ -197,6 +199,7 @@ test-suite jira-client-test
     , http-conduit
     , jira-client
     , lens
+    , openapi3
     , qtility
     , rio
   default-language: Haskell2010
