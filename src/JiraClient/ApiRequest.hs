@@ -76,6 +76,26 @@ instance JiraRequest GetBoardEpicsRequest where
       (Url $ "rest/agile/1.0/board/" <> show @Integer (request ^. unwrap . unwrap) <> "/epic")
       []
 
+-- GET /rest/agile/1.0/board/{boardId}/epic/{epicId}/issue
+instance JiraRequest GetEpicIssuesRequest where
+  type ResponseType GetEpicIssuesRequest = GetEpicIssuesResponse
+  makeRequest credentials baseUrl request =
+    callApi
+      credentials
+      baseUrl
+      url
+      []
+    where
+      url =
+        Url $
+          mconcat
+            [ "rest/agile/1.0/board/",
+              show @Integer (request ^. getEpicIssuesRequestBoardId . unwrap),
+              "/epic/",
+              show @Integer (request ^. getEpicIssuesRequestEpicId . unwrap),
+              "/issue"
+            ]
+
 callApi :: (FromJSON a) => Credentials -> BaseUrl -> Url -> [QueryItem] -> IO (Either String a)
 callApi credentials baseUrl url queryParameters = do
   request <- parseRequest (baseUrl ^. unwrap <> url ^. unwrap)

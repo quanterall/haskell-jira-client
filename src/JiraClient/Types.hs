@@ -44,7 +44,7 @@ newtype AccountId = AccountId {unAccountId :: String}
 newtype WorkLogId = WorkLogId {unWorkLogId :: String}
   deriving (Eq, Show, IsString, FromJSON, ToJSON)
 
-newtype EpicId = EpicId {unEpicId :: Int}
+newtype EpicId = EpicId {unEpicId :: Integer}
   deriving (Eq, Show, Num, FromJSON, ToJSON)
 
 data Credentials = Credentials
@@ -138,6 +138,21 @@ data GetBoardEpicsResponse = GetBoardEpicsResponse
     _getBoardEpicsResponseTotal :: !(Maybe Int),
     _getBoardEpicsResponseIsLast :: !Bool,
     _getBoardEpicsResponseValues :: !(Maybe [Epic])
+  }
+  deriving (Eq, Show, Generic)
+
+data GetEpicIssuesRequest = GetEpicIssuesRequest
+  { _getEpicIssuesRequestBoardId :: !BoardId,
+    _getEpicIssuesRequestEpicId :: !EpicId
+  }
+  deriving (Eq, Show, Generic)
+
+data GetEpicIssuesResponse = GetEpicIssuesResponse
+  { _getEpicIssuesResponseIsExpand :: !(Maybe Text),
+    _getEpicIssuesResponseStartAt :: !Int,
+    _getEpicIssuesResponseMaxResults :: !Int,
+    _getEpicIssuesResponseTotal :: !Int,
+    _getEpicIssuesResponseIssues :: !(Maybe [Issue])
   }
   deriving (Eq, Show, Generic)
 
@@ -356,6 +371,7 @@ foldMapM
     ''ProjectId,
     ''IssueId,
     ''SprintId,
+    ''EpicId,
     ''CommentId,
     ''AccountId,
     ''StartAt,
@@ -395,7 +411,9 @@ foldMapM
     ''GetSprintIssuesRequest,
     ''GetSprintIssuesResponse,
     ''GetBoardEpicsResponse,
-    ''GetBoardIssuesRequest
+    ''GetBoardIssuesRequest,
+    ''GetEpicIssuesRequest,
+    ''GetEpicIssuesResponse
   ]
 
 foldMapM makeLenses [''Credentials]
