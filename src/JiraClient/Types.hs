@@ -14,7 +14,7 @@ newtype MaxResults = MaxResults {unMaxResults :: Int}
   deriving (Eq, Show, Num, ToJSON, FromJSON, ToSchema)
 
 newtype BaseUrl = BaseUrl {unBaseUrl :: String}
-  deriving (Eq, Show, IsString, ToSchema)
+  deriving (Eq, Show, IsString, ToJSON, FromJSON, ToSchema)
 
 newtype Url = Url {unUrl :: String}
   deriving (Eq, Show, IsString, ToJSON, FromJSON, ToSchema)
