@@ -8,19 +8,19 @@ import Qtility
 import RIO.Time (UTCTime)
 
 newtype StartAt = StartAt {unStartAt :: Int}
-  deriving (Eq, Show, Num, ToJSON, FromJSON, ToSchema)
+  deriving (Eq, Show, Ord, Num, ToJSON, FromJSON, ToSchema)
 
 newtype MaxResults = MaxResults {unMaxResults :: Int}
-  deriving (Eq, Show, Num, ToJSON, FromJSON, ToSchema)
+  deriving (Eq, Show, Ord, Num, ToJSON, FromJSON, ToSchema)
 
 newtype BaseUrl = BaseUrl {unBaseUrl :: String}
-  deriving (Eq, Show, IsString, ToJSON, FromJSON, ToSchema)
+  deriving (Eq, Show, Ord, IsString, ToJSON, FromJSON, ToSchema)
 
 newtype Url = Url {unUrl :: String}
-  deriving (Eq, Show, IsString, ToJSON, FromJSON, ToSchema)
+  deriving (Eq, Show, Ord, IsString, ToJSON, FromJSON, ToSchema)
 
 newtype JiraToken = JiraToken {unJiraToken :: ByteString}
-  deriving (Eq, Show, IsString, FromEnvironmentValue, Generic, ToSchema)
+  deriving (Eq, Show, Ord, IsString, FromEnvironmentValue, Generic, ToSchema)
 
 instance FromJSON JiraToken where
   parseJSON = withText "JiraToken" $ encodeUtf8 >>> JiraToken >>> pure
@@ -29,7 +29,7 @@ instance ToJSON JiraToken where
   toJSON = unJiraToken >>> decodeUtf8Lenient >>> toJSON
 
 newtype JiraUsername = JiraUsername {unJiraUsername :: ByteString}
-  deriving (Eq, Show, IsString, FromEnvironmentValue, Generic, ToSchema)
+  deriving (Eq, Show, Ord, IsString, FromEnvironmentValue, Generic, ToSchema)
 
 instance FromJSON JiraUsername where
   parseJSON = withText "JiraUsername" $ encodeUtf8 >>> JiraUsername >>> pure
@@ -38,28 +38,28 @@ instance ToJSON JiraUsername where
   toJSON = unJiraUsername >>> decodeUtf8Lenient >>> toJSON
 
 newtype BoardId = BoardId {unBoardId :: Integer}
-  deriving (Eq, Show, Num, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, Num, FromJSON, ToJSON, ToSchema)
 
 newtype ProjectId = ProjectId {unProjectId :: Integer}
-  deriving (Eq, Show, Num, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, Num, FromJSON, ToJSON, ToSchema)
 
 newtype IssueId = IssueId {unIssueId :: String}
-  deriving (Eq, Show, IsString, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, IsString, FromJSON, ToJSON, ToSchema)
 
 newtype SprintId = SprintId {unSprintId :: Integer}
-  deriving (Eq, Show, Num, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, Num, FromJSON, ToJSON, ToSchema)
 
 newtype CommentId = CommentId {unCommentId :: String}
-  deriving (Eq, Show, IsString, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, IsString, FromJSON, ToJSON, ToSchema)
 
 newtype AccountId = AccountId {unAccountId :: String}
-  deriving (Eq, Show, IsString, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, IsString, FromJSON, ToJSON, ToSchema)
 
 newtype WorkLogId = WorkLogId {unWorkLogId :: String}
-  deriving (Eq, Show, IsString, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, IsString, FromJSON, ToJSON, ToSchema)
 
 newtype EpicId = EpicId {unEpicId :: Int}
-  deriving (Eq, Show, Num, FromJSON, ToJSON, ToSchema)
+  deriving (Eq, Show, Ord, Num, FromJSON, ToJSON, ToSchema)
 
 data Credentials = Credentials
   { _credentialsUsername :: !JiraUsername,
