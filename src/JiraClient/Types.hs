@@ -118,7 +118,11 @@ data GetBoardIssuesResponse = GetBoardIssuesResponse
   }
   deriving (Eq, Show, Generic)
 
-newtype GetBoardSprintsRequest = GetBoardSprintsRequest {unGetBoardSprintsRequest :: BoardId}
+data GetBoardSprintsRequest = GetBoardSprintsRequest
+  { _getBoardSprintsRequestBoardId :: BoardId,
+    _getBoardSprintsRequestStartAt :: Maybe StartAt,
+    _getBoardSprintsRequestMaxResults :: Maybe MaxResults
+  }
   deriving (Eq, Show, Generic)
 
 data GetSprintIssuesRequest = GetSprintIssuesRequest
@@ -364,7 +368,6 @@ foldMapM
     ''JiraUsername,
     ''GetBoardRequest,
     ''GetBoardProjectsRequest,
-    ''GetBoardSprintsRequest,
     ''GetBoardEpicsRequest,
     ''BoardId,
     ''ProjectId,
@@ -409,7 +412,8 @@ foldMapM
     ''GetSprintIssuesRequest,
     ''GetSprintIssuesResponse,
     ''GetBoardEpicsResponse,
-    ''GetBoardIssuesRequest
+    ''GetBoardIssuesRequest,
+    ''GetBoardSprintsRequest
   ]
 
 foldMapM makeLenses [''Credentials]

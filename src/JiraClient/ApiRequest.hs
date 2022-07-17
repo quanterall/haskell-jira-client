@@ -44,9 +44,17 @@ instance JiraRequest GetBoardIssuesRequest where
 
 instance JiraRequest GetBoardSprintsRequest where
   type ResponseType GetBoardSprintsRequest = GetBoardSprintsResponse
-  makeRequest credentials baseUrl request = callApi credentials baseUrl url []
+  makeRequest credentials baseUrl request = callApi credentials baseUrl url queryParameters
     where
-      url = Url $ "rest/agile/1.0/board/" <> show @Integer (request ^. unwrap . unwrap) <> "/sprint"
+      url =
+        Url $
+          "rest/agile/1.0/board/"
+            <> show @Integer (request ^. getBoardSprintsRequestBoardId . unwrap)
+            <> "/sprint"
+      queryParameters =
+        [ ("startAt", (unStartAt >>> show >>> fromString) <$> request ^. getBoardSprintsRequestStartAt),
+          ("maxResults", (unMaxResults >>> show >>> fromString) <$> request ^. getBoardSprintsRequestMaxResults)
+        ]
 
 instance JiraRequest GetSprintIssuesRequest where
   type ResponseType GetSprintIssuesRequest = GetSprintIssuesResponse
