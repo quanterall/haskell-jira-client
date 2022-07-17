@@ -177,8 +177,8 @@ data Sprint = Sprint
     _sprintSelf :: !Url,
     _sprintState :: !Text,
     _sprintName :: !Text,
-    _sprintStartDate :: !UTCTime,
-    _sprintEndDate :: !UTCTime,
+    _sprintStartDate :: !(Maybe UTCTime),
+    _sprintEndDate :: !(Maybe UTCTime),
     _sprintCompleteDate :: !(Maybe UTCTime),
     _sprintOriginBoardId :: !BoardId,
     _sprintGoal :: !Text
