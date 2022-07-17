@@ -63,7 +63,7 @@ instance JiraRequest GetSprintIssuesRequest where
       credentials
       baseUrl
       url
-      []
+      queryParameters
     where
       url =
         Url $
@@ -74,6 +74,14 @@ instance JiraRequest GetSprintIssuesRequest where
               show @Integer (request ^. getSprintIssuesRequestSprintId . unwrap),
               "/issue"
             ]
+      queryParameters =
+        [ ( "startAt",
+            (unStartAt >>> show >>> fromString) <$> request ^. getSprintIssuesRequestStartAt
+          ),
+          ( "maxResults",
+            (unMaxResults >>> show >>> fromString) <$> request ^. getSprintIssuesRequestMaxResults
+          )
+        ]
 
 instance JiraRequest GetBoardEpicsRequest where
   type ResponseType GetBoardEpicsRequest = GetBoardEpicsResponse

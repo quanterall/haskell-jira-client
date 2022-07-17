@@ -127,7 +127,9 @@ data GetBoardSprintsRequest = GetBoardSprintsRequest
 
 data GetSprintIssuesRequest = GetSprintIssuesRequest
   { _getSprintIssuesRequestBoardId :: !BoardId,
-    _getSprintIssuesRequestSprintId :: !SprintId
+    _getSprintIssuesRequestSprintId :: !SprintId,
+    _getSprintIssuesRequestStartAt :: Maybe StartAt,
+    _getSprintIssuesRequestMaxResults :: Maybe MaxResults
   }
   deriving (Eq, Show, Generic)
 
