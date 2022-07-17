@@ -199,6 +199,7 @@ data IssueFields = IssueFields
   { _issueFieldsFlagged :: !Bool,
     _issueFieldsSprint :: !(Maybe BasicSprintInfo),
     _issueFieldsClosedSprint :: !(Maybe [Sprint]),
+    _issueFieldsSummary :: !Text,
     _issueFieldsDescription :: !(Maybe Text),
     _issueFieldsProject :: !Project,
     _issueFieldsComment :: !CommentsInfo,
