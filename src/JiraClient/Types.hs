@@ -206,7 +206,9 @@ data IssueFields = IssueFields
     _issueFieldsEpic :: !(Maybe BasicEpicInfo),
     _issueFieldsWorklog :: !WorkLogInfo,
     _issueFieldsUpdated :: !UTCTime,
-    _issueFieldsTimetracking :: !TimeTrackingInfo
+    _issueFieldsTimetracking :: !TimeTrackingInfo,
+    _issueFieldsCreator :: !User,
+    _issueFieldsAssignee :: !(Maybe User)
   }
   deriving (Eq, Show, Generic)
 
